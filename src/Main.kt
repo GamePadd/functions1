@@ -46,7 +46,6 @@ private fun genTable (type : Int) : MutableMap<String, MutableMap<String,String>
 fun main() {
     // Задача 1
 
-    /*
     var playResult : Int = -1
     do {
         print("Ваш выбор (1 - Камень, 2 - Ножницы, 3 - Бумага): ")
@@ -57,7 +56,6 @@ fun main() {
         println("Выбор компьютера: ${numToString(botChoice)}")
         playResult = getWinner(userChoice, botChoice)
     } while (playResult == 2 || playResult == -1)
-    */
 
     //Задача 2. Биграммный шифр Порты
     print("Введите исходное сообщение: ")
