@@ -20,16 +20,20 @@ private fun numToString(num: Int) : String {
 
 //Функции задачи 2
 
-private fun genBaseTable () : MutableMap<String, MutableMap<String,String>> {
+private fun genTable (type : Int) : MutableMap<String, MutableMap<String,String>> {
     val alphabet = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     var table : MutableMap<String, MutableMap<String,String>> = mutableMapOf()
+    val allNumbers = (1..999).map { it.toString().padStart(3, '0') }.shuffled()
     var counter : Int = 1
+    var numberIndex : Int = 0
     for (i in 0..alphabet.count()-1) {
         var rowKey = alphabet[i].toString()
         var rowMap: MutableMap<String, String> = mutableMapOf()
         for (j in 0..alphabet.count()-1) {
             var colKey = alphabet[j].toString()
-            rowMap[colKey] = counter.toString().padStart(3,'0')
+            if (type == 0) {rowMap[colKey] = counter.toString().padStart(3,'0')}
+            else {rowMap[colKey] = allNumbers[numberIndex]}
+            numberIndex+=1
             counter+=1
         }
         table[rowKey] = rowMap
@@ -56,14 +60,13 @@ fun main() {
     */
 
     //Задача 2. Биграммный шифр Порты
-    var baseTable : MutableMap<String, MutableMap<String,String>> = genBaseTable()
-
     print("Введите исходное сообщение: ")
     var inpt = readln().uppercase()
     print("Напишите вспомогательный символ: ")
     var helpChar = readln().uppercase()
     print("Использовать типовую таблицу или генерировать случайную? (0 - Типовая, 1 - Случайная): ")
     var type = readln().toInt()
+    var baseTable : MutableMap<String, MutableMap<String,String>> = genTable(type)
 
     var result : String = ""
     for (i in 0..inpt.count()-1 step 2) {
@@ -76,7 +79,7 @@ fun main() {
         if (rowChar == " ") {rowChar = helpChar}
         if (colChar == " ") {colChar = helpChar}
 
-        if(type == 0) {result += baseTable[rowChar]!![colChar]}
+        result += baseTable[rowChar]!![colChar]
         result += " "
         //print("$rowChar$colChar ")
     }
