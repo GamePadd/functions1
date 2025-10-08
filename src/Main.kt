@@ -20,16 +20,16 @@ private fun numToString(num: Int) : String {
 
 //Функции задачи 2
 
-private fun baseTable () : MutableMap<String, MutableMap<String,Int>> {
+private fun genBaseTable () : MutableMap<String, MutableMap<String,String>> {
     val alphabet = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-    var table : MutableMap<String, MutableMap<String,Int>> = mutableMapOf()
+    var table : MutableMap<String, MutableMap<String,String>> = mutableMapOf()
     var counter : Int = 1
     for (i in 0..alphabet.count()-1) {
         var rowKey = alphabet[i].toString()
-        var rowMap: MutableMap<String, Int> = mutableMapOf()
+        var rowMap: MutableMap<String, String> = mutableMapOf()
         for (j in 0..alphabet.count()-1) {
             var colKey = alphabet[j].toString()
-            rowMap[colKey] = counter
+            rowMap[colKey] = counter.toString().padStart(3,'0')
             counter+=1
         }
         table[rowKey] = rowMap
@@ -42,6 +42,7 @@ private fun baseTable () : MutableMap<String, MutableMap<String,Int>> {
 fun main() {
     // Задача 1
 
+    /*
     var playResult : Int = -1
     do {
         print("Ваш выбор (1 - Камень, 2 - Ножницы, 3 - Бумага): ")
@@ -52,8 +53,32 @@ fun main() {
         println("Выбор компьютера: ${numToString(botChoice)}")
         playResult = getWinner(userChoice, botChoice)
     } while (playResult == 2 || playResult == -1)
+    */
 
     //Задача 2. Биграммный шифр Порты
+    var baseTable : MutableMap<String, MutableMap<String,String>> = genBaseTable()
 
-    //baseTable()
+    print("Введите исходное сообщение: ")
+    var inpt = readln().uppercase()
+    print("Напишите вспомогательный символ: ")
+    var helpChar = readln().uppercase()
+    print("Использовать типовую таблицу или генерировать случайную? (0 - Типовая, 1 - Случайная): ")
+    var type = readln().toInt()
+
+    var result : String = ""
+    for (i in 0..inpt.count()-1 step 2) {
+        var rowChar = inpt[i].toString()
+        var colChar = " "
+
+        if (i < inpt.count()-1) {colChar = inpt[i+1].toString()}
+        else {colChar = helpChar}
+
+        if (rowChar == " ") {rowChar = helpChar}
+        if (colChar == " ") {colChar = helpChar}
+
+        if(type == 0) {result += baseTable[rowChar]!![colChar]}
+        result += " "
+        //print("$rowChar$colChar ")
+    }
+    println("Зашифрованное сообщение: $result")
 }
